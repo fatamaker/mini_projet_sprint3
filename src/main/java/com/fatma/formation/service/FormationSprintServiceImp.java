@@ -10,12 +10,16 @@ import org.springframework.stereotype.Service;
 import com.fatma.formation.entities.Formation;
 import com.fatma.formation.entities.Theme;
 import com.fatma.formation.repos.FormationSprintRepository;
+import com.fatma.formation.repos.FormationThemeRepository;
 
 @Service
 public class FormationSprintServiceImp implements FormationSprintService {
 
 	@Autowired
 	FormationSprintRepository formationRepository;
+	
+	@Autowired
+	FormationThemeRepository themeRepository;
 	
 
 	@Override
@@ -93,6 +97,11 @@ public class FormationSprintServiceImp implements FormationSprintService {
 	public List<Formation> getFormationsByThemeId(Long idTheme) {
         return formationRepository.findByThemeIdTheme(idTheme);
     }
+	
+	@Override
+	public List<Theme> getAllThemes() {
+	return themeRepository.findAll();
+	}
 
 	
 

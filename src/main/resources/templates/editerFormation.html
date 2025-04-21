@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+<head>
+	<meta charset="utf-8">
+	<title>Modifier une Formation</title>
+</head>
+
+<body>
+		<div th:replace="template"></div>
+	<div class="container mt-5">
+		<div class="card">
+			<div class="card-header">
+				Modifier une Formation
+			</div>
+			<div class="card-body">
+				<form th:action="@{/saveFormation}" method="post" th:object="${formation}">
+					<div class="form-group">
+						<label class="control-label" hidden>ID Formation :</label>
+						<input type="hidden" th:field="*{idFormation}" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label class="control-label">Nom Formation :</label>
+						<input type="text" th:field="*{nomFormation}" class="form-control" />
+						<span th:errors="*{nomFormation}" class="text-danger"> </span>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Prix Formation :</label>
+						<input type="number" th:field="*{prixFormation}" class="form-control" />
+						<span th:errors="*{prixFormation}" class="text-danger"> </span>
+					</div>
+					<div class="form-group">
+							<label class="control-label">Date début :</label>
+							<input type="date" th:field="*{datedebut}" class="form-control" />
+							<span th:errors="*{datedebut}" class="text-danger"></span>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label">Date fin :</label>
+							<input type="date" th:field="*{datefin}" class="form-control" />
+							<span th:errors="*{datefin}" class="text-danger"></span>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label">Mode de formation :</label>
+							<input type="text" th:field="*{modeFormation}" class="form-control" />
+							<span th:errors="*{modeFormation}" class="text-danger"></span>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label">Thème :</label>
+							<select class="form-control" th:field="*{theme}">
+								<option th:each="t : ${themes}" 
+										th:value="${t.idTheme}" 
+										th:text="${t.nomTheme}">
+								</option>
+							</select>
+							<span th:errors="*{theme}" class="text-danger"></span>
+						</div>
+
+						<div>
+							<input type="hidden" name="page" th:value="${page}" />
+							  <input type="hidden" name="size" th:value="${size}" />
+							<button type="submit" class="btn btn-primary">Valider</button>
+						</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

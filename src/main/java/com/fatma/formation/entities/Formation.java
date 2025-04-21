@@ -4,6 +4,12 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "formationSprint")  
@@ -11,14 +17,29 @@ public class Formation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idFormation;
+    private Long idFormation;
 
+    
+    @NotNull
+    @Size (min = 4,max = 15)
+    
+    @Column(name = "nom_formation", length = 255)
     private String nomFormation;
-    private long prixFormation;
+    
+    
+    @Min(value = 10)
+    @Max(value = 10000)
+    private Long prixFormation;
 
+    
+    @Temporal(TemporalType.DATE)
+    @FutureOrPresent
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate datedebut;
-
+    
+    
+    @Temporal(TemporalType.DATE)
+    @FutureOrPresent
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate datefin;
 
@@ -38,7 +59,7 @@ public class Formation {
         this.modeFormation = modeFormation;
     }
 
-    public long getIdFormation() {
+    public Long getIdFormation() {
         return idFormation;
     }
 
@@ -54,7 +75,7 @@ public class Formation {
         this.nomFormation = nomFormation;
     }
 
-    public long getPrixFormation() {
+    public Long getPrixFormation() {
         return prixFormation;
     }
 

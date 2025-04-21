@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="utf-8">
     <title>Liste des Formations</title>
@@ -7,62 +8,63 @@
 </head>
 <body>
 	<div th:replace="template"></div>
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header">
-            Liste des Formations
-        </div>
-        <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom Formation</th>
-                        <th>Prix</th>
-                        <th>Date Début</th>
-                        <th>Date Fin</th>
-                        <th>Mode</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="f : ${formations.content}">
-                        <td th:text="${f.idFormation}"></td>
-                        <td th:text="${f.nomFormation}"></td>
-                        <td th:text="${f.prixFormation}"></td>
-                        <td th:text="${f.datedebut}"></td>
-                        <td th:text="${f.datefin}"></td>
-                        <td th:text="${f.modeFormation}"></td>
-                        <td>
-                            <!-- Modifier button now includes pagination parameters -->
-                            <a th:href="@{/modifierFormation(id=${f.idFormation}, page=${currentPage}, size=${size})}" 
-                               class="btn btn-warning btn-sm">
-                                Modifier
-                            </a>
-                            <!-- Supprimer button -->
-                            <a th:href="@{/supprimerFormation(id=${f.idFormation}, page=${currentPage}, size=${size})}" 
-                               class="btn btn-danger btn-sm" 
-                               onclick="return confirm('Voulez-vous vraiment supprimer cette formation ?');">
-                                Supprimer
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
 
-            <!-- Pagination -->
-            <ul class="pagination">
-                <li th:each="page, status : ${pages}" class="page-item">
-                    <a th:classappend="${status.index == currentPage ? 'active' : ''}" 
-                       class="page-link"
-                       th:href="@{/ListeFormations(page=${status.index}, size=${size})}"
-                       th:text="${status.index + 1}"></a>
-                </li>
-            </ul>
+	<div class="container mt-5">
+	    <div class="card">
+	        <div class="card-header">
+	            Liste des Formations
+	        </div>
+	        <div class="card-body">
+	            <table class="table table-striped">
+	                <thead>
+	                    <tr>
+	                        <th>ID</th>
+	                        <th>Nom Formation</th>
+	                        <th>Prix</th>
+	                        <th>Date Début</th>
+	                        <th>Date Fin</th>
+	                        <th>Mode</th>
+	                        <th>Thème</th>
+	                        <th>Action</th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <tr th:each="f : ${formations.content}">
+	                        <td th:text="${f.idFormation}"></td>
+	                        <td th:text="${f.nomFormation}"></td>
+	                        <td th:text="${f.prixFormation}"></td>
+	                        <td th:text="${f.datedebut}"></td>
+	                        <td th:text="${f.datefin}"></td>
+	                        <td th:text="${f.modeFormation}"></td>
+	                        <td th:text="${f.theme != null ? f.theme.nomTheme : 'Pas de Thème'}"></td>
+	                        <td>
+	                            <a sec:authorize="hasAuthority('ADMIN')"
+	                               th:href="@{/modifierFormation(id=${f.idFormation}, page=${currentPage}, size=${size})}"
+	                               class="btn btn-warning btn-sm">
+	                                Modifier
+	                            </a>
+	                            <a sec:authorize="hasAuthority('ADMIN')"
+	                               th:href="@{/supprimerFormation(id=${f.idFormation}, page=${currentPage}, size=${size})}"
+	                               class="btn btn-danger btn-sm"
+	                               onclick="return confirm('Voulez-vous vraiment supprimer cette formation ?');">
+	                                Supprimer
+	                            </a>
+	                        </td>
+	                    </tr>
+	                </tbody>
+	            </table>
 
-            <a href="/showCreateFormation" class="btn btn-primary">Ajouter une Formation</a>
-        </div>
-    </div>
-</div>
+	            <!-- Pagination -->
+	            <ul class="pagination">
+	                <li th:each="page, status : ${pages}" class="page-item">
+	                    <a th:classappend="${status.index == currentPage ? 'active' : ''}" 
+	                       class="page-link"
+	                       th:href="@{/listeFormations(page=${status.index}, size=${size})}"
+	                       th:text="${status.index + 1}"></a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</div>
 </body>
 </html>

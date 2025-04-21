@@ -10,7 +10,7 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import com.fatma.formation.entities.Formation;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.fatma.formation")
+@ComponentScan(basePackages = {"com.fatma.formation", "com.fatma.config"})
 public class FormationSprintApplication implements CommandLineRunner {
 
 	
@@ -24,7 +24,9 @@ public class FormationSprintApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
+
 	repositoryRestConfiguration.exposeIdsFor(Formation.class);
+
 	}
 
 }

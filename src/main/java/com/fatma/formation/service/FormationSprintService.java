@@ -26,5 +26,6 @@ public interface FormationSprintService {
 	List<Formation> findByOrderByNomFormationAsc();
 	List<Formation> trierFormationsNomsPrix();
 	List<Formation> getFormationsByThemeId(Long idTheme);
+	List<Theme> getAllThemes();
 
 }
