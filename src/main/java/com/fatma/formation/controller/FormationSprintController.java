@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.fatma.formation.entities.Formation;
+import com.fatma.formation.entities.FormationDTO;
 import com.fatma.formation.service.FormationSprintService;
 
 import ch.qos.logback.core.model.Model;
@@ -67,7 +68,7 @@ public class FormationSprintController {
             return "createFormation";
         }
 
-        Formation savedFormation = formationService.saveFormation(formation);
+        FormationDTO savedFormation = formationService.saveFormation(formation);
        
         if (isNew) {
             Page<Formation> formations = formationService.getAllFormationsParPage(page, size);
@@ -102,7 +103,7 @@ public class FormationSprintController {
     		@RequestParam(name="page", defaultValue = "0") int page,
             @RequestParam(name="size", defaultValue = "2") int size,
             ModelMap modelMap) {
-        Formation formation = formationService.getFormation(id);
+        FormationDTO formation = formationService.getFormation(id);
         modelMap.addAttribute("themes", themeService.getAllThemes());
         modelMap.addAttribute("formation", formation);
         modelMap.addAttribute("page", page);

@@ -1,6 +1,7 @@
 package com.fatma.formation.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.fatma.formation.entities.Formation;
+import com.fatma.formation.entities.FormationDTO;
 import com.fatma.formation.entities.Theme;
 import com.fatma.formation.repos.FormationSprintRepository;
 import com.fatma.formation.repos.FormationThemeRepository;
@@ -23,8 +25,8 @@ public class FormationSprintServiceImp implements FormationSprintService {
 	
 
 	@Override
-	public Formation saveFormation(Formation f) {
-		return formationRepository.save(f);
+	public FormationDTO saveFormation(Formation f) {
+		return convertEntityToDto( formationRepository.save(f));
 	}
 
 	@Override
@@ -45,13 +47,18 @@ public class FormationSprintServiceImp implements FormationSprintService {
 	}
 
 	@Override
-	public Formation  getFormation(Long id) {
-		return formationRepository.findById(id).get();
+	public FormationDTO  getFormation(Long id) {
+		return convertEntityToDto(formationRepository.findById(id).get());
 	}
 
 	@Override
-	public List<Formation> getAllFormations() {
-		return formationRepository.findAll();
+	public List<FormationDTO> getAllFormations() {
+//		return formationRepository.findAll();
+		
+		return formationRepository.findAll().stream()
+				.map(this::convertEntityToDto)
+				.collect(Collectors.toList());
+
 	}
 	
 	@Override
@@ -102,6 +109,31 @@ public class FormationSprintServiceImp implements FormationSprintService {
 	public List<Theme> getAllThemes() {
 	return themeRepository.findAll();
 	}
+	
+	@Override
+	public FormationDTO convertEntityToDto(Formation formation) {
+		/*
+		 * FormationDTO formationDTO = new FormationDTO();
+		 * formationDTO.setIdFormation(formation.getIdFormation());
+		 * formationDTO.setNomFormation(formation.getNomFormation());
+		 * formationDTO.setPrixFormation(formation.getPrixFormation());
+		 * formationDTO.setDatedebut(formation.getDatedebut());
+		 * formationDTO.setDatefin(formation.getDatefin());
+		 * formationDTO.setModeFormation(formation.getModeFormation());
+		 * formationDTO.setTheme(formation.getTheme()); return formationDTO;
+		 */
+	    
+	    return FormationDTO.builder()
+	            .idFormation(formation.getIdFormation())
+	            .nomFormation(formation.getNomFormation())
+	            .prixFormation(formation.getPrixFormation())
+	            .datedebut(formation.getDatedebut())
+	            .datefin(formation.getDatefin())
+	            .modeFormation(formation.getModeFormation())
+	            .theme(formation.getTheme())
+	            .build();
+	}
+
 
 	
 

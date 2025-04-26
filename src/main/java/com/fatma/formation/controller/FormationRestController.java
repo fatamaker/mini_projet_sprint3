@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fatma.formation.entities.Formation;
+import com.fatma.formation.entities.FormationDTO;
 import com.fatma.formation.service.FormationSprintService;
 
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,12 +33,12 @@ public class FormationRestController {
 	FormationSprintService formationService;
 	
 	@GetMapping
-	public List<Formation> getAllFormations() {
+	public List<FormationDTO> getAllFormations() {
 		return formationService.getAllFormations();
 	}
 	
 	@GetMapping("/{id}")
-    public Formation getFormationtById(@PathVariable("id") Long id) {
+    public FormationDTO getFormationtById(@PathVariable("id") Long id) {
         return formationService.getFormation(id);
     }
 	
@@ -48,7 +49,7 @@ public class FormationRestController {
 	}
 	
 	@PostMapping
-	public Formation createFormation(@RequestBody Formation formation) {
+	public FormationDTO createFormation(@RequestBody Formation formation) {
 	    return formationService.saveFormation(formation);
 	}
 		
